@@ -12,4 +12,8 @@ class sekala extends Controller
         $namaBelakang = 'Pradipta';
         return view('greetings', compact('id','namaDepan','namaBelakang'));
     }
+
+    public function buatfitur(){
+        return 'ea';
+    }
 }
