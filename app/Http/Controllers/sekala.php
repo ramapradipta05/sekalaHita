@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 
 class sekala extends Controller
 {
-    public function returnView($id)
+    public function returnView()
     {
         $namaDepan = 'Rama';
         $namaBelakang = 'Pradipta';
-        return view('greetings', compact('id','namaDepan','namaBelakang'));
+        return view('greetings', compact('namaDepan','namaBelakang'));
     }
 
     public function buatfitur(){

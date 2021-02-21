@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\sekala;
+use App\Http\Controllers\DosenController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\MatkulController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +17,14 @@ use App\Http\Controllers\sekala;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('greetings');
 });
 
-Route::get('/sekala/{id}',[sekala::class,'returnView']);
+Route::get('/home',[sekala::class,'returnView']);
+Route::get('/dosen',[DosenController::class,'getAllDosenData']);
+Route::get('/dosenid', function () {
+    return view('datadosen_id');
+});
+Route::get('/dosenid/{id}',[DosenController::class,'dosenid']);
+Route::get('/matkul',[MatkulController::class,'index']);
+Route::get('/mahasiswa',[MahasiswaController::class,'index']);
