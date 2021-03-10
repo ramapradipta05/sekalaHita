@@ -19,7 +19,7 @@ class CreateDosenTable extends Migration
             $table->string('alamat');
             $table->string('nik');
             $table->timestamps();
-
+            $table->softDeletes();
         });
     }
 

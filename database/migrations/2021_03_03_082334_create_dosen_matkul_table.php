@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMataKuliahTable extends Migration
+class CreateDosenMatkulTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateMataKuliahTable extends Migration
      */
     public function up()
     {
-        Schema::create('mata_kuliah', function (Blueprint $table) {
+        Schema::create('dosen_matkul', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_mata_kuliah');
-            $table->tinyInteger('sks');
             $table->timestamps();
+            $table->bigInteger('dosen_id')->unsigned();
+            $table->bigInteger('mata_kuliah_id')->unsigned();
             $table->softDeletes();
+            
+            $table->foreign('dosen_id')->references('id')->on('dosen');
+            $table->foreign('mata_kuliah_id')->references('id')->on('mata_kuliah');
         });
     }
 
@@ -29,6 +32,6 @@ class CreateMataKuliahTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mata_kuliah');
+        Schema::dropIfExists('dosen_matkul');
     }
 }

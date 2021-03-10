@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 @section('content')
 <hr>
 <h1>
@@ -59,7 +59,7 @@
     </center>
     <br>
     <center>
-        <a href="{{ url('/') }}"><button>Home</button></a>
+        <a href="{{ url('/') }}"><button type="button" class="btn btn-outline-primary">Home</button></a>
     </center>
 </div>
 

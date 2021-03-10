@@ -3,23 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB; 
-use App\MatkulModel;
-class MatkulController extends Controller
+use App\jadwal;
+use Illuminate\Support\Facades\DB;
+class JadwalController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $matkul = DB::table('mata_kuliah')
-        ->select('nama_mata_kuliah as nama_mata_kuliah', 'id as id')
+        //dd($id);
+        $jadwal = DB::table('jadwal')
+        ->select(
+            'dosen.nama as namadosen',
+            'mata_kuliah.nama_mata_kuliah as matkul',
+            'hari as day'
+        )
+        ->join('dosen', 'jadwal.dosen_id', '=', 'dosen.id')
+        ->join('mata_kuliah', 'jadwal.mata_kuliah_id', '=', 'mata_kuliah.id')
+        ->where('jadwal.dosen_id', $id)
         ->get();
-        //dd($dosen);
-        return view('data.datamatkul', compact(['matkul']));
+        //dd($jadwal->namadosen);
+        return view('data.listjadwal',compact(['jadwal']));
+        //, compact(['jadwal']));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -39,12 +49,19 @@ class MatkulController extends Controller
      */
     public function store(Request $request)
     {
-        $matkul = new MatkulModel;
-        $matkul->nama_mata_kuliah = $request->namamatkul;
-        $matkul->sks = $request->sks;
-        $matkul->save();
-
-        return redirect('/matkul');
+            $data = $request->all();
+            if(count($request->matkul) > 0){
+                foreach($request->jadwalmatkul as $jadwal=>$j){
+                    $data2=array(
+                        'hari'=>$request->jadwalmatkul[$jadwal],
+                        'mata_kuliah_id'=>$request->matkul[$jadwal],
+                        'dosen_id'=>$request->iddosen
+                    );
+                jadwal::insert($data2);
+                }
+            }
+            
+        return redirect('/dosen');
     }
 
     /**
@@ -66,9 +83,7 @@ class MatkulController extends Controller
      */
     public function edit($id)
     {
-        $matkul = MatkulModel::find($id);
-        
-        return view('update.updatematkul',compact(['matkul','id']));
+        //
     }
 
     /**
@@ -80,14 +95,7 @@ class MatkulController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        $mhs = MatkulModel::find($id);
-        $mhs->timestamps = false;
-        $mhs->nama_mata_kuliah = $request->namamatkul;
-        $mhs->sks = $request->sks;
-        $mhs->save();
-
-        return redirect('/matkul');
+        //
     }
 
     /**
